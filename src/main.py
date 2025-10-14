@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import os
 import threading
-from qr_code_maker import process_csv
+from src.qr_code_maker import process_csv
 
 
 class QRCodeMakerGUI:
@@ -239,7 +239,7 @@ class QRCodeMakerGUI:
     def _process_single_thread(self, title, url, save_dir, font_path):
         """Process single QR code in separate thread"""
         try:
-            from qr_code_maker import create_full_page_image, clean_filename
+            from src.qr_code_maker import create_full_page_image, clean_filename
             import os
             
             # Create the image
