@@ -144,7 +144,7 @@ def main():
         print(f"✓ PyInstaller {PyInstaller.__version__} found")
     except ImportError:
         print("✗ PyInstaller not found. Please install it first:")
-        print("  poetry install --with dev")
+        print("  uv sync --group dev")
         return False
     
     # Check if source files exist

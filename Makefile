@@ -32,28 +32,28 @@ help:
 # Installation
 install:
 	@echo "Installing production dependencies..."
-	poetry install --only main
+	uv sync
 
 install-dev:
 	@echo "Installing all dependencies including dev tools..."
-	poetry install --with dev
+	uv sync --group dev
 
 # Running the application
 run-gui:
 	@echo "Starting QR Code Maker GUI..."
-	poetry run python src/main.py
+	uv run python src/main.py
 
 run-cli:
 	@echo "Running QR Code Maker CLI with demo data..."
 	@if [ -f "demo.csv" ]; then \
-		poetry run python src/qr_code_maker.py demo.csv; \
+		uv run python src/qr_code_maker.py demo.csv; \
 	else \
 		echo "Creating demo.csv with sample data..."; \
 		echo "Title,URL" > demo.csv; \
 		echo "Event Registration,https://example.com/register" >> demo.csv; \
 		echo "Survey Link,https://example.com/survey" >> demo.csv; \
 		echo "Website,https://example.com" >> demo.csv; \
-		poetry run python src/qr_code_maker.py demo.csv; \
+		uv run python src/qr_code_maker.py demo.csv; \
 	fi
 
 # Building executables
@@ -62,30 +62,30 @@ build: build-gui build-cli
 
 build-gui:
 	@echo "Building GUI executable..."
-	poetry run python build.py
+	uv run python build.py
 	@echo "GUI executable built successfully!"
 
 build-cli:
 	@echo "Building CLI executable..."
-	poetry run pyinstaller --onefile --name=QRCodeMakerCLI src/qr_code_maker.py
+	uv run pyinstaller --onefile --name=QRCodeMakerCLI src/qr_code_maker.py
 	@echo "CLI executable built successfully!"
 
 # Code quality
 test:
 	@echo "Running tests..."
-	poetry run pytest
+	uv run pytest
 
 format:
 	@echo "Formatting code with black..."
-	poetry run black src/ build.py
+	uv run black src/ build.py
 
 lint:
 	@echo "Running linting with flake8..."
-	poetry run flake8 src/ build.py
+	uv run flake8 src/ build.py
 
 type-check:
 	@echo "Running type checking with mypy..."
-	poetry run mypy src/ build.py
+	uv run mypy src/ build.py
 
 # Cleaning
 clean:
@@ -98,14 +98,14 @@ clean:
 
 clean-all: clean
 	@echo "Removing virtual environment..."
-	poetry env remove python
+	@rm -rf .venv
 	@echo "Full cleanup completed!"
 
 # Windows-specific commands
 ifeq ($(OS),Windows_NT)
 run-gui-windows:
 	@echo "Starting QR Code Maker GUI (Windows)..."
-	poetry run python src\main.py
+	uv run python src\main.py
 
 build-windows:
 	@echo "Building on Windows..."
@@ -144,8 +144,8 @@ check-system:
 	@echo "Checking system requirements..."
 	@echo "Python version:"
 	@python --version
-	@echo "Poetry version:"
-	@poetry --version
+	@echo "uv version:"
+	@uv --version
 	@echo "System: $(shell uname -s)"
 	@echo "Architecture: $(shell uname -m)"
 

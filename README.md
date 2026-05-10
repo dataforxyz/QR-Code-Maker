@@ -105,5 +105,5 @@ python src/qr_code_maker.py input.csv output_folder custom_font.ttf
 ## Requirements
 
 - Python 3.11+
-- Poetry (for dependency management)
+- [uv](https://github.com/astral-sh/uv) (for dependency management)
 - Windows/Linux/macOS supported
